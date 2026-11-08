@@ -1,0 +1,12 @@
+{
+  "name": "poc4-spectator",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "tsc",
+    "test": "npm run build && node --test tests/project.test.cjs"
+  },
+  "devDependencies": {
+    "typescript": "5.6.3"
+  }
+}
