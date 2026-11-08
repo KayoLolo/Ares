@@ -1,0 +1,12 @@
+{
+  "name": "poc5-communication",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "@types/node": "20.17.0",
+    "typescript": "5.6.3"
+  }
+}
