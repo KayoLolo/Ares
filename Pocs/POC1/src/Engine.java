@@ -40,6 +40,29 @@ public class Engine {
             return;
         }
 
+        if (parts[1].equals("TELEPORT")) {
+            if (parts.length != 4) {
+                reject(id, "INVALID_COMMAND");
+                return;
+            }
+
+            double x;
+            double y;
+            try {
+                x = Double.parseDouble(parts[2]);
+                y = Double.parseDouble(parts[3]);
+            } catch (NumberFormatException exception) {
+                reject(id, "INVALID_NUMBER");
+                return;
+            }
+            if (!Double.isFinite(x) || !Double.isFinite(y)) {
+                reject(id, "INVALID_NUMBER");
+                return;
+            }
+            teleport(robot, x, y);
+            return;
+        }
+
         if (parts[1].equals("MINE")) {
             if (parts.length != 2) {
                 reject(id, "INVALID_COMMAND");
@@ -239,5 +262,34 @@ public class Engine {
             }
         }
         return target;
+    }
+
+    private void teleport(Robot robot, double x, double y) {
+        if (robot.energy < 5) {
+            reject(robot.id, "NO_ENERGY");
+            return;
+        }
+        if (x < 0 || x > state.world.w || y < 0 || y > state.world.h) {
+            reject(robot.id, "OUT_OF_BOUNDS");
+            return;
+        }
+        for (Robot other : state.robots) {
+            if (other == robot || other.hp == 0) {
+                continue;
+            }
+            if (Math.hypot(other.x - x, other.y - y) < 1) {
+                reject(robot.id, "COLLISION");
+                return;
+            }
+        }
+
+        robot.x = x;
+        robot.y = y;
+        robot.energy -= 5;
+
+        JsonObject event = event("ROBOT_TELEPORTED", robot.id);
+        event.addProperty("x", robot.x);
+        event.addProperty("y", robot.y);
+        write(event);
     }
 }

@@ -1,7 +1,7 @@
 # POC 1 — Engine
 
 Le moteur charge le JSON et applique `MOVE`, `WAIT`, `MINE` et `SHOOT` au clavier.
-L'extension `TELEPORT` reste à réaliser dans un commit séparé.
+L'extension `TELEPORT` est ajoutée dans un commit séparé.
 
 Avec Java 21 et Maven, depuis `Pocs/POC1` :
 
@@ -15,6 +15,7 @@ Saisir par exemple `A MOVE 0.0` : A passe de (40, 50) à (42, 50).
 `A WAIT` lui permet de récupérer de l'énergie et produit `ROBOT_WAITED`.
 `A MINE` récolte un cristal proche ou produit `NO_CRYSTAL` s'il n'y en a pas.
 `B SHOOT 3.14` tire vers A : `ROBOT_SHOT`, puis `ROBOT_DAMAGED` si A est touché.
+`A TELEPORT 10 20` place A en (10, 20) et produit `ROBOT_TELEPORTED`.
 Chaque action produit une ligne JSON avec un numéro `seq` croissant.
 Les erreurs d'action produisent `ACTION_REJECTED` sans modifier l'état.
 Terminer avec Ctrl+D sous Linux ou Ctrl+Z puis Entrée sous Windows.
